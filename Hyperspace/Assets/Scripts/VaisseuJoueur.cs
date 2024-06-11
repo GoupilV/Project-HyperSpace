@@ -51,24 +51,13 @@ public class VaisseuJoueur : MonoBehaviour
         // Activer/désactiver les particules en fonction du mouvement vertical
         if (mvVertical > 0)
         {
-            foreach (var ps in exhaustParticleSystems)
-            {
-                if (!ps.isPlaying)
-                {
-                    ps.Play();
-                }
-            }
+            ActivateParticleSystems(exhaustParticleSystems);
         }
         else
         {
-            foreach (var ps in exhaustParticleSystems)
-            {
-                if (ps.isPlaying)
-                {
-                    ps.Stop();
-                }
-            }
+            DeactivateParticleSystems(exhaustParticleSystems);
         }
+
     }
 
     void FixedUpdate()
@@ -82,5 +71,27 @@ public class VaisseuJoueur : MonoBehaviour
         vaisseauRB.AddTorque(vaisseauRB.transform.up * multVitesseAngle * inputSourisX, ForceMode.VelocityChange);
 
         vaisseauRB.AddTorque(vaisseauRB.transform.forward * multVitesseAngleRoll * inputRoll, ForceMode.VelocityChange);
+    }
+
+    void ActivateParticleSystems(ParticleSystem[] particleSystems)
+    {
+        foreach (var ps in particleSystems)
+        {
+            if (!ps.isPlaying)
+            {
+                ps.Play();
+            }
+        }
+    }
+
+    void DeactivateParticleSystems(ParticleSystem[] particleSystems)
+    {
+        foreach (var ps in particleSystems)
+        {
+            if (ps.isPlaying)
+            {
+                ps.Stop();
+            }
+        }
     }
 }

@@ -5,9 +5,13 @@ using UnityEngine.UI;
 
 public class Interface : MonoBehaviour
 {
+    public Button boutonJouer;
+    public Canvas Interface;
+
     List<string> optionNiveau = new List<string> {"Facile", "Intermédiaire", "Difficile"};
     Dropdown choixNiveau;
-    
+    double vitesseFusee;
+
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +25,9 @@ public class Interface : MonoBehaviour
 
         //Ajouter un listener pour le changement de sélection
         choixNiveau.onValueChanged.AddListener(delegate{SelctionNiveau(choixNiveau);});
+
+        // Ajouter un listener pour le bouton
+        boutonJouer.onClick.AddListener(butClick);
     }
 
     void SelectionNiveau(DropDown niveauChoisi)
@@ -44,6 +51,22 @@ public class Interface : MonoBehaviour
         }
 
     }
+
+    void butClick()
+    {
+        // Rend l'interface invisible
+        Interface.gameObject.SetActive(false);
+
+        // Lancer le jeu
+        //StartHyperSpace();
+    }
+
+    /*
+    void StartHyperSapce()
+    {
+    Debug.Log("Le jeu commence !");
+    }
+    */
 
     // Update is called once per frame
     void Update()

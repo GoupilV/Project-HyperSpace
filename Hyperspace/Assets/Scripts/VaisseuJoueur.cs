@@ -4,49 +4,96 @@ using UnityEngine;
 
 public class VaisseuJoueur : MonoBehaviour
 {
-	Rigidbody vaisseauRB;
+    Rigidbody vaisseauRB;
 
-	//Inputs Joueur
-	float mvVertical;
-	float mvHorizontal;
-	float inputSourisX;
-	float inputSourisY;
-	float inputRoll;
+    // Inputs Joueur
+    float mvVertical;
+    float mvHorizontal;
+    float inputSourisX;
+    float inputSourisY;
+    float inputRoll;
 
-	//Multi vitesse
-	[SerializeField]
-	float multVitesse = 1;
-	[SerializeField]
-	float multVitesseAngle = 0.5f;
-	[SerializeField]
-	float multVitesseAngleRoll = 0.05f;
+    // Multi vitesse
+    [SerializeField]
+    float multVitesse = 1;
+    [SerializeField]
+    float multVitesseAngle = 0.5f;
+    [SerializeField]
+    float multVitesseAngleRoll = 0.05f;
 
-	void Start()
-	{
-		Cursor.lockState = CursorLockMode.Locked;
-		vaisseauRB = GetComponent<Rigidbody>();
-	}
+    // Références aux systèmes de particules
+    [SerializeField]
+    ParticleSystem[] exhaustParticleSystems;
 
-	// Update is called once per frame
-	void Update()
-	{
-		mvVertical = Input.GetAxis("Vertical");
-		mvHorizontal = Input.GetAxis("Horizontal");
-		inputRoll = Input.GetAxis("Roll");
+    // Stocker les rotations initiales
+    Quaternion[] initialRotations;
 
-		inputSourisX = Input.GetAxis("Mouse X");
-		inputSourisY = Input.GetAxis("Mouse Y");
-	}
-	void FixedUpdate()
-	{
-		vaisseauRB.AddForce(vaisseauRB.transform.TransformDirection(Vector3.forward) * mvVertical * multVitesse, ForceMode.VelocityChange);
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        vaisseauRB = GetComponent<Rigidbody>();
 
-		vaisseauRB.AddForce(vaisseauRB.transform.TransformDirection(Vector3.right) * mvHorizontal * multVitesse, ForceMode.VelocityChange);
+        // Vous pouvez obtenir les références aux systèmes de particules de différentes manières,
+        // soit par un GetComponentsInChildren, soit en assignant directement depuis l'éditeur.
+        if (exhaustParticleSystems == null || exhaustParticleSystems.Length == 0)
+        {
+            exhaustParticleSystems = GetComponentsInChildren<ParticleSystem>();
+        }
+    }
 
-		vaisseauRB.AddTorque(vaisseauRB.transform.right * multVitesseAngle * inputSourisY * -1, ForceMode.VelocityChange);
+    // Update is called once per frame
+    void Update()
+    {
+        mvVertical = Input.GetAxis("Vertical");
+        mvHorizontal = Input.GetAxis("Horizontal");
+        inputRoll = Input.GetAxis("Roll");
 
-		vaisseauRB.AddTorque(vaisseauRB.transform.up * multVitesseAngle * inputSourisX, ForceMode.VelocityChange);
+        inputSourisX = Input.GetAxis("Mouse X");
+        inputSourisY = Input.GetAxis("Mouse Y");
 
-		vaisseauRB.AddTorque(vaisseauRB.transform.forward * multVitesseAngleRoll * inputRoll, ForceMode.VelocityChange);
-	}
+        // Activer/désactiver les particules en fonction du mouvement vertical
+        if (mvVertical > 0)
+        {
+            ActivateParticleSystems(exhaustParticleSystems);
+        }
+        else
+        {
+            DeactivateParticleSystems(exhaustParticleSystems);
+        }
+    }
+
+    void FixedUpdate()
+    {
+        vaisseauRB.AddForce(vaisseauRB.transform.TransformDirection(Vector3.forward) * mvVertical * multVitesse, ForceMode.VelocityChange);
+
+        vaisseauRB.AddForce(vaisseauRB.transform.TransformDirection(Vector3.right) * mvHorizontal * multVitesse, ForceMode.VelocityChange);
+
+        vaisseauRB.AddTorque(vaisseauRB.transform.right * multVitesseAngle * inputSourisY * -1, ForceMode.VelocityChange);
+
+        vaisseauRB.AddTorque(vaisseauRB.transform.up * multVitesseAngle * inputSourisX, ForceMode.VelocityChange);
+
+        vaisseauRB.AddTorque(vaisseauRB.transform.forward * multVitesseAngleRoll * inputRoll, ForceMode.VelocityChange);
+    }
+
+    void ActivateParticleSystems(ParticleSystem[] particleSystems)
+    {
+        foreach (var ps in particleSystems)
+        {
+            if (!ps.isPlaying)
+            {
+                ps.Play();
+            }
+        }
+    }
+
+    void DeactivateParticleSystems(ParticleSystem[] particleSystems)
+    {
+        foreach (var ps in particleSystems)
+        {
+            if (ps.isPlaying)
+            {
+                ps.Stop();
+            }
+        }
+    }
 }

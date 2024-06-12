@@ -25,8 +25,7 @@ public class VaisseuJoueur : MonoBehaviour
 	[SerializeField]
 	ParticleSystem[] exhaustParticleSystems;
 
-	// Stocker les rotations initiales
-	Quaternion[] initialRotations;
+	public AudioSource sonReacteur;
 
 	void Start()
 	{
@@ -55,10 +54,20 @@ public class VaisseuJoueur : MonoBehaviour
 		if (mvVertical > 0)
 		{
 			ActivateParticleSystems(exhaustParticleSystems);
+
+			if (!sonReacteur.isPlaying)
+			{
+				sonReacteur.Play();
+			}
 		}
 		else
 		{
 			DeactivateParticleSystems(exhaustParticleSystems);
+
+			if (sonReacteur.isPlaying)
+			{
+				sonReacteur.Stop();
+			}
 		}
 	}
 

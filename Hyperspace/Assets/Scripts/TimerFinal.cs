@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,15 +14,17 @@ public class TimerFinal : MonoBehaviour
 		timer = FindObjectOfType<Timer>();
 	}
 
-	void OnTriggerEnter(Collider collider)
+	void OnTriggerEnter(Collider other)
 	{
-		if (collider.CompareTag("Player"))
+		Debug.Log("Collision detected with: " + other.gameObject.name);
+		if (other.CompareTag("Player"))
 		{
+			Debug.Log("Player reached the end object!");
 			timer.ArretTimer();
 			canvasInterface.SetActive(false);
 			panelVictoire.SetActive(true);
 			AffichageTemps();
-			Invoke("RoladScene", 5f);
+			StartCoroutine(ReloadScence(3f));
 		}
 	}
 	void AffichageTemps()
@@ -33,8 +36,9 @@ public class TimerFinal : MonoBehaviour
 		int milliS = Mathf.FloorToInt((tempsPris * 100f) % 100f);
 		tempsText.text = string.Format("{0:00}:{1:00}:{2:00}", minutes, secondes, milliS);
 	}
-	void ReloadScence()
+	IEnumerator ReloadScence(float delai)
 	{
+		yield return new WaitForSeconds(delai);
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
 }

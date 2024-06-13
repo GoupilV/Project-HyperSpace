@@ -1075,6 +1075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   output: {fileID: 1370511993}
+  sceneAchargerFacile: SampleScene
 --- !u!4 &503418248
 Transform:
   m_ObjectHideFlags: 0
@@ -2425,7 +2426,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1778575852}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 503418247}
+        m_TargetAssemblyTypeName: GestionMenu, Assembly-CSharp
+        m_MethodName: LancerJeu
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: SampleScene
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1778575852
 MonoBehaviour:
   m_ObjectHideFlags: 0

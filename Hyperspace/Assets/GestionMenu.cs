@@ -6,30 +6,33 @@ using UnityEngine.SceneManagement;
 public class GestionMenu : MonoBehaviour
 {
     public TMP_Text output;
-    public string niveau;
+    private string scene;
+    public string sceneAchargerFacile;
 
     public void HandleOutput(int valeur)
     {
         if(valeur == 0)
         {
             output.text = "1";
-            niveau = = "SampleScene";
+            scene = sceneAchargerFacile;
+        //    LancerJeu(scene);
         }
-        if(valeur == 1)
+        if (valeur == 1)
         {
-            output.text = "2";
-            niveau = "niveau2";
+            output.text ="2";
+            // scene = ;
         }
         if (valeur == 2)
         {
             output.text = "3";
-            niveau = "niveau3";
+            // scene = ;
         }
+
     }
 
-    public void LancerJeu()
+    public void LancerJeu(string scene)
     {
-        SceneManager.LoadScene(niveau);
+        SceneManager.LoadScene(scene);
     }
 
     public void FermerJeu()

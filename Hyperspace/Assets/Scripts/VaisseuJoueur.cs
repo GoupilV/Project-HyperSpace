@@ -55,6 +55,10 @@ public class VaisseuJoueur : MonoBehaviour
 			Cursor.lockState = CursorLockMode.None;
 			SceneManager.LoadScene("MenuPrincipal");
 		}
+		if (Input.GetKeyDown(KeyCode.X))
+		{
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		}
 
 		if (mvVertical > 0)
 		{

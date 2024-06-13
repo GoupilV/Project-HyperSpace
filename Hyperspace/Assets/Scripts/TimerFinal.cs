@@ -8,7 +8,9 @@ public class TimerFinal : MonoBehaviour
 	public GameObject panelVictoire;
 	public GameObject canvasInterface;
 	public TMP_Text tempsText;
+	public string sceneACharger;
 	private Timer timer;
+
 	void Start()
 	{
 		timer = FindObjectOfType<Timer>();
@@ -39,6 +41,6 @@ public class TimerFinal : MonoBehaviour
 	IEnumerator ReloadScence(float delai)
 	{
 		yield return new WaitForSeconds(delai);
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		SceneManager.LoadScene(sceneACharger);
 	}
 }

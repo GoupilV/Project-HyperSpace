@@ -41,6 +41,7 @@ public class TimerFinal : MonoBehaviour
 	IEnumerator ReloadScence(float delai)
 	{
 		yield return new WaitForSeconds(delai);
+		Cursor.lockState = CursorLockMode.None;
 		SceneManager.LoadScene(sceneACharger);
 	}
 }

@@ -2,10 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class VaisseuJoueur : MonoBehaviour
 {
 	Rigidbody vaisseauRB;
+	public float delaiRespawn = 3f;
+	/*public ParticleSystem[] explosionParticules;*/
+
+
+
 
 	// Inputs Joueur
 	float mvVertical;
@@ -32,12 +38,17 @@ public class VaisseuJoueur : MonoBehaviour
 		Cursor.lockState = CursorLockMode.Locked;
 		vaisseauRB = GetComponent<Rigidbody>();
 
-		// Vous pouvez obtenir les r�f�rences aux syst�mes de particules de diff�rentes mani�res,
-		// soit par un GetComponentsInChildren, soit en assignant directement depuis l'�diteur.
 		if (exhaustParticleSystems == null || exhaustParticleSystems.Length == 0)
 		{
-			exhaustParticleSystems = GetComponentsInChildren<ParticleSystem>();
+			exhaustParticleSystems = GetComponentsInChildren<ParticleSystem>(true);
+			exhaustParticleSystems = exhaustParticleSystems.Where(ps => !ps.gameObject.CompareTag("Explosion")).ToArray();
 		}
+		/*if (explosionParticules == null || explosionParticules.Length == 0)
+		{
+			explosionParticules = GetComponentsInChildren<ParticleSystem>(true);
+			explosionParticules = explosionParticules.Where(ps => !ps.gameObject.CompareTag("Reacteur")).ToArray();
+
+		}*/
 	}
 
 	// Update is called once per frame
@@ -79,6 +90,22 @@ public class VaisseuJoueur : MonoBehaviour
 			}
 		}
 	}
+	private void OnCollisionEnter(Collision collision)
+	{
+		if (collision.gameObject.CompareTag("Portal"))
+		{
+			return;
+		}
+		vaisseauRB.isKinematic = true;
+
+		/*(explosionParticules);*/
+		Debug.Log("Explosion triggered!");
+
+		gameObject.SetActive(false);
+		ReloadScene();
+
+	}
+
 
 	void FixedUpdate()
 	{
@@ -113,5 +140,9 @@ public class VaisseuJoueur : MonoBehaviour
 				ps.Stop();
 			}
 		}
+	}
+	private void ReloadScene()
+	{
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
 }

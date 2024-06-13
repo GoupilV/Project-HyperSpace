@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class VaisseuJoueur : MonoBehaviour
 {
@@ -48,6 +49,12 @@ public class VaisseuJoueur : MonoBehaviour
 
 		inputSourisX = Input.GetAxis("Mouse X");
 		inputSourisY = Input.GetAxis("Mouse Y");
+
+		if (Input.GetKeyDown(KeyCode.M))
+		{
+			Cursor.lockState = CursorLockMode.None;
+			SceneManager.LoadScene("MenuPrincipal");
+		}
 
 		if (mvVertical > 0)
 		{

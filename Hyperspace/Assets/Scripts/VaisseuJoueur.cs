@@ -21,7 +21,6 @@ public class VaisseuJoueur : MonoBehaviour
 	[SerializeField]
 	float multVitesseAngleRoll = 0.05f;
 
-	// R�f�rences aux syst�mes de particules
 	[SerializeField]
 	ParticleSystem[] exhaustParticleSystems;
 
@@ -50,7 +49,6 @@ public class VaisseuJoueur : MonoBehaviour
 		inputSourisX = Input.GetAxis("Mouse X");
 		inputSourisY = Input.GetAxis("Mouse Y");
 
-		// Activer/d�sactiver les particules en fonction du mouvement vertical
 		if (mvVertical > 0)
 		{
 			ActivateParticleSystems(exhaustParticleSystems);
